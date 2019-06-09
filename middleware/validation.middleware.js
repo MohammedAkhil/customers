@@ -1,8 +1,6 @@
-const { getUserValidation } = require('../utils/request.schema');
-
 const { validationError } = require('./error.middleware');
 
-export const validateRequest = (ctx, next, validation = getUserValidation) => {
+export const validateRequest = (ctx, next, validation = {}) => {
   const {
     request: { body: requestBody },
   } = ctx;

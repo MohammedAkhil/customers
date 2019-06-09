@@ -39,16 +39,6 @@ exports.getAll = async ctx => {
 };
 
 exports.createOne = async ctx => {
-  const { name } = ctx.request.body;
-  ctx.assert(name, 400, 'The user info is malformed!');
-  const id = generateId();
-  const newUser = {
-    id,
-    name,
-    timestamp: Date.now(),
-  };
-  db.users.push(newUser);
-  const createdUser = db.users.find(user => user.id === id);
-  ctx.status = 201;
-  ctx.body = createdUser;
+  ctx.status = 200;
+  ctx.body = { success: true };
 };
