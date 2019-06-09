@@ -29,11 +29,11 @@ if (error) {
 
 const config = {
   databaseConfig: {
-    user: envVars.DB_USER,
-    host: envVars.DB_HOST,
-    password: envVars.DB_PASSWORD,
-    database: envVars.DB_DATABASE,
-    port: envVars.DB_PORT,
+    user: envVars.DB_USER || 'root',
+    host: envVars.DB_HOST || 'localhost',
+    password: envVars.DB_PASSWORD || 'password',
+    database: envVars.DB_DATABASE || 'customers',
+    port: envVars.DB_PORT || 3306,
   },
 };
 
