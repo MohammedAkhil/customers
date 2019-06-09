@@ -10,9 +10,9 @@ exports.getOne = async ctx => {
       database.dbConfig.database
     }.users where id = ?`;
     const { userId } = ctx.params;
-    const users = await database.query(query, userId)[0];
+    const users = await database.query(query, userId);
     ctx.status = 200;
-    ctx.body = users;
+    ctx.body = users[0];
   } catch (err) {
     throw new ApiError({ message: err.sqlMessage, status: 409 });
   }
