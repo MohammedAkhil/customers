@@ -30,6 +30,7 @@ class Database {
       await this.query(
         'create database if not exists ' + this.dbConfig.database,
       );
+      console.log('create ' + this.dbConfig.database);
     } catch (err) {
       console.log('database could not be created');
       console.log(err);
@@ -38,8 +39,9 @@ class Database {
 
   async useDatabase() {
     try {
-      await this.query('use ' + this.dbConfig.database);
-      console.log('use database customer');
+      const data = await this.query(`use ${this.dbConfig.database}`);
+      console.log(data);
+      console.log('use ' + this.dbConfig.database);
     } catch (err) {
       console.log('database could not be used');
       console.log(err);

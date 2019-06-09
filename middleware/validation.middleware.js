@@ -9,12 +9,12 @@ export const validateRequest = async (ctx, next, validation = {}) => {
       return {
         [key]: value(requestBody) ? 'valid' : 'invalid',
         value: requestBody[key],
-        ...(!value(requestBody) ? { error: !value(requestBody) } : {}),
+        error: !value(requestBody),
       };
     },
   );
 
-  const errors = validations.filter(obj => obj.hasOwnProperty('error'));
+  const errors = validations.filter(obj => obj.error);
   if (errors.length > 0) {
     throw new ApiError({
       validations: errors,
