@@ -11,6 +11,7 @@ async function bootstrap() {
    * e.g.
    * await sequelize.authenticate()
    */
+  require('./database');
   return http.createServer(server.callback()).listen(port);
 }
 
