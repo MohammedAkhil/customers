@@ -1,3 +1,7 @@
-# koa-template
+# Customers
+Get and create customers
 
-Koa boilerplate template for create-koa-application.
+to run locally
+`npm i` and 
+`npm run start`
+
