@@ -10,7 +10,6 @@ module.exports = {
 			profileImage VARCHAR(100), 
 			email VARCHAR(254) UNIQUE,
 			created_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			updated_ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY(id));
 		`,
 };
