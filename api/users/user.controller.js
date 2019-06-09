@@ -1,49 +1,48 @@
 'use strict';
-
-const generateId = require('../../utils/generateId.util');
+import database from '../../database';
+import ApiError from '../../utils/api.error';
 const { jwtSign } = require('../../utils/jwt.util');
 
-/**
- * Mock database, replace this with your db models import, required to perform query to your database.
- */
-const db = {
-  users: [
-    {
-      id: 'bff28903-042e-47c2-b9ee-07c3954989ec',
-      name: 'Marco',
-      created_at: 1558536830937,
-    },
-    {
-      id: 'dca01a32-36e6-4886-af75-8e7caa0162a9',
-      name: 'Leonardo',
-      created_at: 1558536843742,
-    },
-    {
-      id: 'dca01a32-36e6-4886-af75-8e7caa0162a9',
-      name: 'Berta',
-      created_at: 1558536863550,
-    },
-  ],
-};
-
-exports.getOne = ctx => {
-  const { userId } = ctx.params;
-  const user = db.users.find(user => user.id === userId);
-  ctx.assert(user, 404, "The requested user doesn't exist");
-  ctx.status = 200;
-  ctx.body = user;
+exports.getOne = async ctx => {
+  try {
+    const query = `SELECT * FROM users where id = ?`;
+    const { userId } = ctx.params;
+    const users = await database.query(query, userId)[0];
+    ctx.status = 200;
+    ctx.body = users;
+  } catch (err) {
+    throw new ApiError({ message: err.sqlMessage, status: 409 });
+  }
 };
 
 exports.getAll = async ctx => {
-  ctx.status = 200;
-  ctx.body = db.users;
+  try {
+    const query = `SELECT * FROM users`;
+    const users = await database.query(query);
+    ctx.status = 200;
+    ctx.body = users;
+  } catch (err) {
+    throw new ApiError({ message: err.sqlMessage, status: 409 });
+  }
 };
 
-exports.createOne = async ctx => {
-  ctx.status = 200;
-  ctx.body = {
-    success: true,
-    userId: generateId(),
-    token: jwtSign(ctx.request.body),
-  };
+exports.createOne = async (ctx, next) => {
+  try {
+    const insertQuery = `INSERT INTO users SET ?`;
+    await database.query(insertQuery, ctx.request.body);
+    const user = await getUserByEmail(ctx.request.body.email);
+    ctx.body = {
+      success: true,
+      user: user,
+      token: jwtSign(user),
+    };
+  } catch (err) {
+    throw new ApiError({ message: err.sqlMessage, status: 409 });
+  }
+};
+
+const getUserByEmail = async email => {
+  const query = `SELECT * FROM users WHERE email = ?`;
+  const data = await database.query(query, email);
+  return data;
 };
