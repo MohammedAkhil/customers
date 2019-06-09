@@ -3,6 +3,7 @@
 const controller = require('./user.controller');
 const { getUserValidation } = require('../../utils/request.schema');
 const { validateRequest } = require('../../middleware/validation.middleware');
+const authenticated = require('../../middleware/auth.middleware');
 
 module.exports = Router => {
   const router = new Router({
@@ -15,7 +16,7 @@ module.exports = Router => {
 
   router
     .get('/:userId', controller.getOne)
-    .get('/', controller.getAll)
+    .get('/', authenticated, controller.getAll)
     .post('/', controller.createOne);
 
   return router;

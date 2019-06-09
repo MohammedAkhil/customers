@@ -1,6 +1,7 @@
 'use strict';
 
 const generateId = require('../../utils/generateId.util');
+const { jwtSign } = require('../../utils/jwt.util');
 
 /**
  * Mock database, replace this with your db models import, required to perform query to your database.
@@ -40,5 +41,9 @@ exports.getAll = async ctx => {
 
 exports.createOne = async ctx => {
   ctx.status = 200;
-  ctx.body = { success: true };
+  ctx.body = {
+    success: true,
+    userId: generateId(),
+    token: jwtSign(ctx.request.body),
+  };
 };
