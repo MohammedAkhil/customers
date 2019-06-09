@@ -1,6 +1,6 @@
 import ApiError from '../utils/api.error';
 
-export const validateRequest = (ctx, next, validation = {}) => {
+export const validateRequest = async (ctx, next, validation = {}) => {
   const {
     request: { body: requestBody },
   } = ctx;
@@ -23,6 +23,6 @@ export const validateRequest = (ctx, next, validation = {}) => {
     });
   } else {
     ctx.request.validations = validations;
-    next();
+    await next();
   }
 };

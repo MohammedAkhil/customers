@@ -10,7 +10,7 @@ module.exports = Router => {
     prefix: `/users`,
   });
 
-  router.post('/', (ctx, next) =>
+  router.post('/', async (ctx, next) =>
     validateRequest(ctx, next, getUserValidation),
   );
 
